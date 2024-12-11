@@ -1,0 +1,799 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>2.2 Comunicación de backend con frontend y pruebas con postman.</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+.btn-regresar {
+    background-color: #ADD8E6; /* Azul claro */
+    color: #000; /* Color del texto */
+    text-decoration: none;
+    padding: 10px 20px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    font-weight: bold; /* Texto en negritas */
+    border: 1px solid #ccc; /* Un borde sutil */
+    cursor: pointer; /* Manito al pasar el mouse */
+  }
+
+  .btn-regresar:hover {
+    background-color: #87CEEB; /* Un tono más oscuro al pasar el mouse */
+  }
+	
+</style></head><body><article id="150f7729-2c1b-8071-a804-fc2bd9de05ab" class="page sans">
+	<header>
+		<button class="btn-regresar" onclick="window.location.href='index.html';">Regresar a Inicio</button>
+		<h1 class="page-title">2.2 Comunicación de backend con frontend y pruebas con postman.</h1><p class="page-description"></p></header><div class="page-body"><p id="157f7729-2c1b-8027-b0cb-e65b8bb157d2" class="">Consumir un servicio de backend que lista categorías desde un proyecto Angular utilizando</p><p id="157f7729-2c1b-808a-ae90-c3d972493e2d" class="">la URL proporcionada (<code>http://localhost:8080/category/getdata</code>)</p><h2 id="157f7729-2c1b-80fd-9d91-d124953e9caa" class=""><strong>1. Crear un nuevo proyecto Angular:</strong></h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="157f7729-2c1b-8055-b3e0-ebf1680942aa" class="code"><code class="language-Bash">ng new appwebds20242
+cd appwebds20242</code></pre><h2 id="157f7729-2c1b-806e-9b1d-d7e089b6246b" class=""><strong>2. Crear un Servicio Angular para la Comunicación con el Backend:</strong></h2><h3 id="157f7729-2c1b-80e8-99a0-f14733ac21ec" class=""><strong>2.1 Genera un servicio llamado </strong><code><strong>category.service</strong></code><strong>:</strong></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="157f7729-2c1b-8082-8bf3-e8fc9acc406d" class="code"><code class="language-Bash">ng generate service api/category</code></pre><h3 id="157f7729-2c1b-8061-899f-ca3954698e44" class=""><strong>2.2 En el archivo generado </strong><code><strong>src/app/api/category.service.ts</strong></code><strong>, implementa el método para consumir la API:</strong></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="159f7729-2c1b-800a-a95f-ea0995c563a9" class="code"><code class="language-JavaScript">import { HttpClient } from &#x27;@angular/common/http&#x27;;
+import { Injectable } from &#x27;@angular/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+
+@Injectable({
+	providedIn: &#x27;root&#x27;
+})
+export class CategoryService {
+
+	private apiUrl = &#x27;http://localhost:8081&#x27;;
+	
+	constructor(private httpClient: HttpClient) { }
+	
+	public getData(): Observable&lt;any&gt; {
+		return this.httpClient.get(`${this.apiUrl}/category/getdata`);
+	}
+	
+}</code></pre><p id="159f7729-2c1b-8084-b722-d2fb8b5d2d6d" class=""><strong>Explicación detallada:</strong></p><p id="159f7729-2c1b-8070-8131-f9dc17c684f4" class=""><mark class="highlight-teal"><strong>2.1 Importaciones:</strong></mark></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="159f7729-2c1b-802e-8ebe-d3a222ed8ee3" class="code"><code class="language-JavaScript">import { HttpClient } from &#x27;@angular/common/http&#x27;;
+import { Injectable } from &#x27;@angular/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;</code></pre><ul id="159f7729-2c1b-800d-8c62-c6cc0a77e3ba" class="bulleted-list"><li style="list-style-type:disc"><code>HttpClient</code>: Servicio de Angular que permite realizar peticiones HTTP (GET, POST, PUT, DELETE, etc.) a servidores externos.</li></ul><ul id="159f7729-2c1b-80bb-b923-f2d2d28aa943" class="bulleted-list"><li style="list-style-type:disc"><code>Injectable</code>: Decorador que indica que esta clase puede inyectarse en otros componentes o servicios.</li></ul><ul id="159f7729-2c1b-80f5-ae39-ded27038600f" class="bulleted-list"><li style="list-style-type:disc"><code>Observable</code>: Tipo de dato que emite valores a lo largo del tiempo. En este caso, <code>HttpClient</code> retorna un <code>Observable</code> del que podemos “suscribirnos” para obtener la respuesta asincrónica del servidor.</li></ul><p id="159f7729-2c1b-8078-ac12-f3f9119488d2" class=""><mark class="highlight-teal"><strong>2.2 Decorador</strong></mark><strong> </strong><code><strong>@Injectable({providedIn: &#x27;root&#x27;})</strong></code><strong>:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="159f7729-2c1b-8017-a487-cc11ec1fa931" class="code"><code class="language-JavaScript">@Injectable({
+  providedIn: &#x27;root&#x27;
+})</code></pre><p id="159f7729-2c1b-80c1-a41d-c2ccbecc64ea" class="">Indica que este servicio se registrará en el &quot;root injector&quot; de la aplicación. Esto significa que estará disponible en toda la aplicación sin necesidad de agregarlo en módulos específicos.</p><p id="159f7729-2c1b-801e-8e12-e32b66a70246" class=""><mark class="highlight-teal"><strong>2.3 Definición de la clase</strong></mark><strong> </strong><code><strong>CategoryService</strong></code><strong>:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="159f7729-2c1b-80ec-8c86-c774f3ff1a23" class="code"><code class="language-JavaScript">export class CategoryService {
+  ...
+}</code></pre><ul id="159f7729-2c1b-8067-a192-e0a8d88de18e" class="bulleted-list"><li style="list-style-type:disc">Es una clase que contiene métodos para interactuar con el backend.</li></ul><ul id="159f7729-2c1b-80bb-83ee-ff682747eb25" class="bulleted-list"><li style="list-style-type:disc">Este patrón (crear un servicio) es una buena práctica en Angular para separar la lógica de consumo de datos de los componentes de la interfaz.</li></ul><p id="159f7729-2c1b-80c2-981b-d78b120323ef" class=""><mark class="highlight-teal"><strong>2.4 Constructor con inyección de dependencias:</strong></mark></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="159f7729-2c1b-80b5-be8f-d8430ec4f120" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">constructor(private httpClient: HttpClient) {}</code></pre><ul id="159f7729-2c1b-80dc-85ee-d8ed95b25790" class="bulleted-list"><li style="list-style-type:disc"><code>private httpClient: HttpClient</code> inyecta una instancia de <code>HttpClient</code> en el servicio.</li></ul><ul id="159f7729-2c1b-80e7-b608-e56173a0134e" class="bulleted-list"><li style="list-style-type:disc">Gracias a la inyección de dependencias, no es necesario crear ni instanciar <code>HttpClient</code> manualmente; Angular se encarga de ello.</li></ul><p id="159f7729-2c1b-801a-952b-f755f32ad03c" class=""><mark class="highlight-teal"><strong>2.5 Variable</strong></mark><strong> </strong><code><strong>apiUrl</strong></code><strong>:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="159f7729-2c1b-8044-9beb-c558b3e4f754" class="code"><code class="language-JavaScript">private apiUrl = &#x27;http://localhost:8081&#x27;;</code></pre><p id="159f7729-2c1b-8090-9893-d8a28e1e8d06" class="">Define la URL base de la API a la que se hará la petición. Tenerla en una variable facilita su modificación sin alterar el resto del código.</p><p id="159f7729-2c1b-8044-b086-c1957e924987" class=""><mark class="highlight-teal"><strong>2.6 Método</strong></mark><strong> </strong><code><strong>getData()</strong></code><strong>:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="159f7729-2c1b-8048-b58c-d8c0bb866c53" class="code"><code class="language-JavaScript">public getData(): Observable&lt;any&gt; {
+		return this.httpClient.get(`${this.apiUrl}/category/getdata`);}</code></pre><ul id="159f7729-2c1b-8011-8866-e6f57b88c2a2" class="bulleted-list"><li style="list-style-type:disc">Realiza una petición HTTP GET a <code>http://localhost:8081/category/getdata</code>.</li></ul><ul id="159f7729-2c1b-8027-974e-c0540ae0b0b9" class="bulleted-list"><li style="list-style-type:disc">Retorna un <code>Observable&lt;any&gt;</code>, lo que significa que la respuesta del servidor llegará de forma asíncrona.</li></ul><ul id="159f7729-2c1b-805d-9b1c-e5b89be76a45" class="bulleted-list"><li style="list-style-type:disc">Cuando otro componente se suscriba a este método, recibirá los datos provenientes del servidor (por ejemplo, un objeto JSON) en el callback del <code>subscribe</code>.</li></ul><h3 id="157f7729-2c1b-80a0-abc7-eafd913260bd" class=""><strong>2.3. En el archivo </strong><code><strong>src/app/app.config.ts</strong></code><strong>agregar el provideHttpClient</strong></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="157f7729-2c1b-8002-a685-c5a366c79778" class="code"><code class="language-JavaScript">import { ApplicationConfig, provideZoneChangeDetection } from &#x27;@angular/core&#x27;;
+import { provideRouter } from &#x27;@angular/router&#x27;;
+import { provideHttpClient } from &#x27;@angular/common/http&#x27;;
+import { routes } from &#x27;./app.routes&#x27;;
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideRouter(routes),
+    provideHttpClient()
+  ]
+};</code></pre><p id="159f7729-2c1b-8052-9e23-dc60148b3c0b" class=""><strong>Desglose de cada elemento:</strong></p><p id="159f7729-2c1b-8042-b4dc-e66155171dda" class=""><strong>3.1 ApplicationConfig</strong>:<div class="indented"><p id="159f7729-2c1b-8004-9990-e2a9103b6f45" class=""><code>ApplicationConfig</code> es una interfaz que permite configurar aspectos globales de la aplicación Angular. Al exportar <code>appConfig</code> como <code>ApplicationConfig</code>, estamos definiendo la configuración de inicialización que se aplicará al iniciar la aplicación.</p></div></p><p id="159f7729-2c1b-80e8-886d-e6a53a5707ff" class=""><strong>3.2 providers: [ ... ]</strong>:<div class="indented"><p id="159f7729-2c1b-80c2-8369-c0be33c6a944" class="">El arreglo <code>providers</code> dentro de <code>appConfig</code> contiene funciones de proveedor que configuran servicios y comportamientos globales. Al utilizar estas funciones, Angular registra servicios y configuraciones para que estén disponibles durante toda la vida de la aplicación.</p></div></p><p id="159f7729-2c1b-806c-ae82-fc3e6428b48b" class=""><strong>3.3 provideZoneChangeDetection({ eventCoalescing: true })</strong>:<div class="indented"><ul id="159f7729-2c1b-8064-8233-f0d22d62e87f" class="bulleted-list"><li style="list-style-type:disc"><strong>Zona y detección de cambios:</strong> Angular utiliza &quot;Zone.js&quot; para saber cuándo debe refrescar la vista (correr la detección de cambios) cada vez que ocurre un evento asíncrono (clics, respuestas HTTP, timeouts, etc.).</li></ul><ul id="159f7729-2c1b-80a8-96e0-dbd4256a4660" class="bulleted-list"><li style="list-style-type:disc"><strong>eventCoalescing: true:</strong> Esta opción combina (coalesce) múltiples eventos en un solo ciclo de detección de cambios. En otras palabras, si varias acciones ocurren muy rápido unas tras otras, Angular agrupará estas acciones para que la detección de cambios se realice una sola vez, en lugar de hacerlo por cada evento separado. Esto mejora el rendimiento de la aplicación, reduciendo la sobrecarga de actualizaciones de la vista.</li></ul></div></p><p id="159f7729-2c1b-800e-88d1-d2e77cbb41b9" class=""><strong>3.4 provideRouter(routes)</strong>:<div class="indented"><ul id="159f7729-2c1b-80bd-95a5-c4a3ef8e1655" class="bulleted-list"><li style="list-style-type:disc"><strong>Enrutador de Angular:</strong> <code>provideRouter</code> configura el enrutador de la aplicación con las rutas definidas en <code>app.routes</code>.</li></ul><ul id="159f7729-2c1b-80e4-b210-e82b1342386e" class="bulleted-list"><li style="list-style-type:disc"><strong>routes:</strong> Es un arreglo de objetos ruta que mapean una URL a un componente específico. Gracias a <code>provideRouter(routes)</code>, tu aplicación sabrá a qué componente mostrar cuando el usuario navegue a una ruta determinada.</li></ul><ul id="159f7729-2c1b-8053-8966-d240ac51984d" class="bulleted-list"><li style="list-style-type:disc">Esto hace que puedas cambiar de vista de forma dinámica sin recargar la página, implementando un enrutamiento interno tipo SPA (Single Page Application).</li></ul></div></p><p id="159f7729-2c1b-80af-b908-c38ae456353e" class=""><strong>3.5 provideHttpClient()</strong>:<div class="indented"><ul id="159f7729-2c1b-80c7-ae8a-e1f2e26130f9" class="bulleted-list"><li style="list-style-type:disc"><strong>HttpClient:</strong> Esta función registra el <code>HttpClient</code> en el nivel raíz de la aplicación. <code>HttpClient</code> es el servicio de Angular que facilita la realización de peticiones HTTP (GET, POST, PUT, DELETE, etc.) a servicios externos o APIs.</li></ul><ul id="159f7729-2c1b-803c-9df7-f7d8d897f51e" class="bulleted-list"><li style="list-style-type:disc">Al utilizar <code>provideHttpClient()</code>, todos los componentes y servicios de tu aplicación podrán inyectar <code>HttpClient</code> y emplearlo para consumir datos desde el backend, sin necesidad de declararlo en módulos heredados (como ocurría con el antiguo <code>HttpClientModule</code>).</li></ul></div></p><h3 id="157f7729-2c1b-8004-9297-c3ed9bdced36" class=""><strong>2.4 En el archivo </strong><code><strong>src/app/app.component.ts</strong></code><strong>, utiliza el servicio para obtener las categorías:</strong></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="157f7729-2c1b-8019-9dc5-c4eea40556ef" class="code"><code class="language-JavaScript">import { Component } from &#x27;@angular/core&#x27;;
+import { RouterOutlet } from &#x27;@angular/router&#x27;;
+import { CategoryService } from &#x27;./api/category.service&#x27;;
+
+@Component({
+  selector: &#x27;app-root&#x27;,
+  standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: &#x27;./app.component.html&#x27;,
+  styleUrl: &#x27;./app.component.css&#x27;
+})
+export class AppComponent {
+  category: any = {};
+
+	constructor(
+		private categoryService: CategoryService
+	) { }
+	ngOnInit() {
+		this.categoryService.getData().subscribe({
+			next: (response: any) =&gt; {
+				this.category = response;
+			},
+			error: (error: any) =&gt; {
+				console.log(error)
+			}
+		});
+	}
+}</code></pre><p id="159f7729-2c1b-80a5-ab7d-fdfe9c4eefb6" class=""><strong>Explicación detallada:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="159f7729-2c1b-80ef-8dfa-db6472e0c268" class="code"><code class="language-JavaScript">import { Component } from &#x27;@angular/core&#x27;;
+import { RouterOutlet } from &#x27;@angular/router&#x27;;
+import { CategoryService } from &#x27;./api/category.service&#x27;;
+</code></pre><ul id="159f7729-2c1b-802d-ae2a-dde5ec5d6601" class="bulleted-list"><li style="list-style-type:disc"><strong>import { Component } from &#x27;@angular/core&#x27;;</strong><p id="159f7729-2c1b-8031-a6a4-c1b44872cf64" class="">Importa el decorador <code>@Component</code> desde el núcleo de Angular. Este decorador se utiliza para indicar que la clase que lo acompaña es un componente.</p></li></ul><ul id="159f7729-2c1b-806a-a5e6-d7d020fb9a53" class="bulleted-list"><li style="list-style-type:disc"><strong>import { RouterOutlet } from &#x27;@angular/router&#x27;;</strong><p id="159f7729-2c1b-8051-9fa9-f316d31b0335" class="">Importa <code>RouterOutlet</code>, una directiva de Angular que permite mostrar el contenido asociado a las rutas definidas en el enrutador. Con <code>RouterOutlet</code>, cuando navegas a diferentes rutas, se cargarán dinámicamente los componentes correspondientes en esta área del template.</p></li></ul><ul id="159f7729-2c1b-8039-bbdf-ec96df4d534c" class="bulleted-list"><li style="list-style-type:disc"><strong>import { CategoryService } from &#x27;./api/category.service&#x27;;</strong><p id="159f7729-2c1b-80ff-952f-fae46d88062b" class="">Importa el servicio <code>CategoryService</code>, el cual se encarga de consumir una API externa para obtener datos de categorías. Este servicio se utilizará en el componente para traer la información y mostrarla.</p></li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="159f7729-2c1b-80bc-8363-d9028bfb2b6e" class="code"><code class="language-JavaScript">@Component({
+  selector: &#x27;app-root&#x27;,
+  standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: &#x27;./app.component.html&#x27;,
+  styleUrls: [&#x27;./app.component.css&#x27;]
+})</code></pre><p id="159f7729-2c1b-80a9-bb15-fce135dceaf8" class=""><strong>@Component({ ... })</strong></p><p id="159f7729-2c1b-80b7-80df-d145089b5607" class="">Define las opciones del componente.</p><ul id="159f7729-2c1b-80de-a730-d24059953343" class="bulleted-list"><li style="list-style-type:disc"><strong>selector: &#x27;app-root&#x27;</strong>: Nombre del elemento HTML que representará este componente en el DOM. Cuando en el <code>index.html</code> aparece <code>&lt;app-root&gt;&lt;/app-root&gt;</code>, se está insertando este componente.</li></ul><ul id="159f7729-2c1b-80b5-921c-f8084a1cf311" class="bulleted-list"><li style="list-style-type:disc"><strong>standalone: true</strong>: Indica que este componente es independiente (standalone) y no necesita declararse en un módulo. Esta es una característica de las versiones más recientes de Angular.</li></ul><ul id="159f7729-2c1b-8074-8393-ef6b311d79b5" class="bulleted-list"><li style="list-style-type:disc"><strong>imports: [RouterOutlet]</strong>: Permite usar <code>RouterOutlet</code> directamente en este componente. Al ser standalone, necesitamos importar explícitamente cualquier directiva o componente usado en el template.</li></ul><ul id="159f7729-2c1b-807a-bd77-e56cf5e01d59" class="bulleted-list"><li style="list-style-type:disc"><strong>templateUrl: &#x27;./app.component.html&#x27;</strong>: Ruta al archivo de plantilla HTML del componente, que define la vista.</li></ul><ul id="159f7729-2c1b-80a7-a048-ceab0327d5cf" class="bulleted-list"><li style="list-style-type:disc"><strong>styleUrls: [&#x27;./app.component.css&#x27;]</strong>: Ruta al archivo de estilos CSS del componente, que define su presentación.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="159f7729-2c1b-8070-881f-f6fbda31c244" class="code"><code class="language-JavaScript">export class AppComponent {
+  category: any = {};</code></pre><ul id="159f7729-2c1b-80c4-824c-e0ec7291f468" class="bulleted-list"><li style="list-style-type:disc"><strong>export class AppComponent { ... }</strong>: Declara la clase del componente. Aquí se define la lógica del mismo.</li></ul><ul id="159f7729-2c1b-8045-86ab-d9f701269da5" class="bulleted-list"><li style="list-style-type:disc"><strong>category: any = {};</strong>: Declara una propiedad <code>category</code> en la clase y la inicializa como un objeto vacío. Este campo se utilizará para almacenar los datos de la categoría que retornará el servicio. El tipo <code>any</code> indica que puede tener cualquier tipo de dato, lo cual brinda flexibilidad pero menos seguridad de tipos.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="159f7729-2c1b-8025-9a68-e635e23d1514" class="code"><code class="language-JavaScript"> constructor( private categoryService: CategoryService) { }</code></pre><p id="159f7729-2c1b-8069-9263-d97c803880fb" class=""><strong>constructor(private categoryService: CategoryService): </strong></p><p id="159f7729-2c1b-8058-993d-da10d86e15f7" class="">Define un constructor para la clase del componente.</p><ul id="159f7729-2c1b-80b2-a56d-c08e1828385e" class="bulleted-list"><li style="list-style-type:disc"><code>private categoryService: CategoryService</code> inyecta una instancia del <code>CategoryService</code> en el componente. Angular se encarga de crear y proveer esta instancia. De esta forma, <code>categoryService</code> se puede usar dentro del componente para llamar al método <code>getData()</code>.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="159f7729-2c1b-8041-a05b-ea4e08dae210" class="code"><code class="language-JavaScript">  ngOnInit() {
+    this.categoryService.getData().subscribe({
+      next: (response: any) =&gt; {
+        this.category = response;
+      },
+      error: (error: any) =&gt; {
+        console.log(error);
+      }
+    });
+  }
+}</code></pre><ul id="159f7729-2c1b-800c-a0bf-e2fdaa874540" class="bulleted-list"><li style="list-style-type:disc"><strong>ngOnInit()</strong>:<p id="159f7729-2c1b-801b-8b28-ca0a9bc35998" class="">Este es un ciclo de vida de los componentes Angular. Se ejecuta una vez que el componente se ha inicializado, es decir, después de que Angular haya configurado todas las propiedades y dependencias. Es un buen lugar para obtener datos externos.</p></li></ul><ul id="159f7729-2c1b-8027-9312-fa1b391c9002" class="bulleted-list"><li style="list-style-type:disc"><strong>this.categoryService.getData().subscribe({...})</strong>:<ul id="159f7729-2c1b-80fe-8150-e68be2fb5b8b" class="bulleted-list"><li style="list-style-type:circle"><code>this.categoryService.getData()</code> llama al método <code>getData()</code> del servicio. Este método retorna un <code>Observable</code> que emite los datos cuando llegan de la API.</li></ul><ul id="159f7729-2c1b-809c-b741-ff269478e24f" class="bulleted-list"><li style="list-style-type:circle"><code>.subscribe({...})</code> se utiliza para &quot;escuchar&quot; los valores emitidos por el <code>Observable</code>. Al suscribirte, defines cómo manejar el resultado:<ul id="159f7729-2c1b-80f7-922e-d10e897352cf" class="bulleted-list"><li style="list-style-type:square"><strong>next: (response: any) =&gt; { this.category = response; }</strong>:Cuando la petición HTTP se completa con éxito y se reciben datos, se ejecuta la función <code>next</code>. La variable <code>response</code> contendrá los datos retornados por la API. Luego, <code>this.category = response;</code> asigna dichos datos a la propiedad <code>category</code> del componente, haciendo que estén disponibles para la vista.</li></ul><ul id="159f7729-2c1b-809a-8830-e092fe1de736" class="bulleted-list"><li style="list-style-type:square"><strong>error: (error: any) =&gt; { console.log(error); }</strong>:Si ocurre un error durante la petición (por ejemplo, el servidor no responde o la URL es incorrecta), se llama la función <code>error</code>. Aquí simplemente se registra el error en la consola para diagnóstico.</li></ul></li></ul></li></ul><h3 id="157f7729-2c1b-8084-86ea-c6ab3ccb1acd" class=""><strong>2.5 En el archivo </strong><code><strong>src/app/app.component.html</strong></code><strong>, </strong></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="157f7729-2c1b-801a-a35a-e7634ec3dd3e" class="code"><code class="language-HTML">&lt;h2&gt;Lista de Categorias&lt;/h2&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th&gt;Nombre&lt;/th&gt;
+			&lt;th&gt;Descripcion&lt;/th&gt;
+			&lt;th&gt;Estado&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td&gt;{{category.name}}&lt;/td&gt;
+			&lt;td&gt;{{category.description}}&lt;/td&gt;
+			&lt;td&gt;{{category.status}}&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;</code></pre><ul id="159f7729-2c1b-8052-8e21-c9522d27294e" class="bulleted-list"><li style="list-style-type:disc">Crea una tabla HTML.</li></ul><ul id="159f7729-2c1b-8033-b41d-e3fb8b6c9bec" class="bulleted-list"><li style="list-style-type:disc">La sección <code>&lt;thead&gt;</code> define la cabecera de la tabla.</li></ul><ul id="159f7729-2c1b-80ad-98c8-d605d9f4b873" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;tr&gt;</code> crea una fila. En este caso, es una fila de cabecera.</li></ul><ul id="159f7729-2c1b-803a-a8c3-ffd6db17bdd7" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;th&gt;</code> define una celda de encabezado. Aquí se muestran los nombres de las columnas: &quot;Nombre&quot;, &quot;Descripción&quot; y &quot;Estado&quot;.</li></ul><ul id="159f7729-2c1b-80fb-9323-d545731ab84c" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;tbody&gt;</code> define el cuerpo de la tabla.</li></ul><ul id="159f7729-2c1b-80b9-ae24-e0be8ca28041" class="bulleted-list"><li style="list-style-type:disc">Dentro de <code>&lt;tbody&gt;</code> hay una fila (<code>&lt;tr&gt;</code>) con tres celdas (<code>&lt;td&gt;</code>).</li></ul><ul id="159f7729-2c1b-800b-8639-d0205862e640" class="bulleted-list"><li style="list-style-type:disc">Cada celda utiliza la sintaxis de interpolación <code>{{ ... }}</code> de Angular, que inserta valores de las propiedades del componente TypeScript en el HTML.</li></ul><ul id="159f7729-2c1b-80e9-ad9b-f52bdb809c94" class="bulleted-list"><li style="list-style-type:disc"><code>{{category.name}}</code> muestra el valor de la propiedad <code>name</code> del objeto <code>category</code> que está definido en el componente.</li></ul><ul id="159f7729-2c1b-80a9-86eb-ff55262b284b" class="bulleted-list"><li style="list-style-type:disc"><code>{{category.description}}</code> muestra la propiedad <code>description</code> del objeto <code>category</code>.</li></ul><ul id="159f7729-2c1b-80c8-a573-fecb065b64e2" class="bulleted-list"><li style="list-style-type:disc"><code>{{category.status}}</code> muestra la propiedad <code>status</code> del objeto <code>category</code>.</li></ul><p id="159f7729-2c1b-80ac-945f-d0d166310e5b" class=""><strong>¿De dónde provienen estos datos?</strong></p><p id="159f7729-2c1b-8040-9f84-eca524e474d2" class="">En el app.component.ts, se realiza una suscripción a un servicio (CategoryService) que obtiene datos desde el backend. Cuando la información llega, se almacena en la propiedad category del componente. Este objeto category puede tener campos como name, description y status. Cuando el componente se renderiza, Angular sustituye las expresiones {{ ... }} por los valores actuales de category, mostrando así los datos en la interfaz. </p><p id="159f7729-2c1b-80dc-bedb-f01a79ea7286" class="">El uso de <code>{{category.name}}</code>, <code>{{category.description}}</code> y <code>{{category.status}}</code> permite mostrar valores dinámicos provenientes del componente de Angular, actualizados en tiempo real cuando el componente recibe la información desde el servicio.</p><h3 id="157f7729-2c1b-80bb-a7a5-e5c33c5be08b" class=""><strong>2.6 Ejecutar el Proyecto Angular</strong></h3><ul id="157f7729-2c1b-80a6-827a-d35f54704ab2" class="bulleted-list"><li style="list-style-type:disc">Ejecuta el proyecto con:</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="157f7729-2c1b-80eb-bdd2-f2cf607db190" class="code"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all">ng serve</code></pre><ul id="157f7729-2c1b-8012-bade-c742b469af1e" class="bulleted-list"><li style="list-style-type:disc">Abre tu navegador y navega a <code>http://localhost:4200</code>. Deberías ver la lista de categorías obtenida desde el backend.</li></ul><figure id="157f7729-2c1b-80a9-a02c-c719399dd89a" class="image" style="text-align:left"><a href="image6.png"><img style="width:466.960205078125px" src="image6.png"/></a></figure><h2 id="157f7729-2c1b-8081-90ee-f40421b78a06" class=""><strong>3. Pruebas con Postman</strong></h2><ol type="1" id="157f7729-2c1b-8065-8f62-f855d25f8ce3" class="numbered-list" start="1"><li><strong>Verificar el endpoint del backend</strong>:<ul id="157f7729-2c1b-8035-ab21-e6de7ab54c71" class="bulleted-list"><li style="list-style-type:disc">Usa Postman para asegurarte de que <code>http://localhost:8081/category/getdata</code> devuelve los datos esperados.</li></ul></li></ol><ol type="1" id="157f7729-2c1b-8066-a6f6-d6e5a086a383" class="numbered-list" start="2"><li><strong>Verificar la comunicación entre Angular y el Backend</strong>:<ul id="157f7729-2c1b-8018-aefd-e66357fd8b45" class="bulleted-list"><li style="list-style-type:disc">Inspecciona la consola del navegador para asegurarte de que no hay errores.</li></ul><ul id="157f7729-2c1b-80c3-8ab3-ff91a5fdd485" class="bulleted-list"><li style="list-style-type:disc">Si encuentras un error relacionado con CORS, asegúrate de configurar el backend para permitir solicitudes desde <code>http://localhost:4200</code>.</li></ul></li></ol><figure id="157f7729-2c1b-80a2-8255-c9b0835f2818" class="image"><a href="image7.png"><img style="width:707.98291015625px" src="image7.png"/></a></figure></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
